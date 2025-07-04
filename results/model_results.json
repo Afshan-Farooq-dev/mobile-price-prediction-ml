@@ -1,0 +1,50 @@
+{
+    "Linear Regression": {
+        "model_name": "Linear Regression",
+        "accuracy": 0.8975,
+        "precision": 0.9316552870611113,
+        "recall": 0.8975,
+        "f1_score": 0.9095768778867371,
+        "training_time": 0.07980012893676758
+    },
+    "Logistic Regression": {
+        "model_name": "Logistic Regression",
+        "accuracy": 0.965,
+        "precision": 0.9650445632798573,
+        "recall": 0.965,
+        "f1_score": 0.9649863177272501,
+        "training_time": 0.03156137466430664
+    },
+    "Decision Tree": {
+        "model_name": "Decision Tree",
+        "accuracy": 0.82,
+        "precision": 0.8241079964983442,
+        "recall": 0.82,
+        "f1_score": 0.8207794376734121,
+        "training_time": 0.17044901847839355
+    },
+    "Random Forest": {
+        "model_name": "Random Forest",
+        "accuracy": 0.8925,
+        "precision": 0.8925167516751675,
+        "recall": 0.8925,
+        "f1_score": 0.8924979374484363,
+        "training_time": 0.12738537788391113
+    },
+    "SVM": {
+        "model_name": "SVM",
+        "accuracy": 0.895,
+        "precision": 0.8968595976126299,
+        "recall": 0.895,
+        "f1_score": 0.8956306226521207,
+        "training_time": 0.23591279983520508
+    },
+    "ANN": {
+        "model_name": "ANN",
+        "accuracy": 0.92,
+        "precision": 0.9196838735494197,
+        "recall": 0.92,
+        "f1_score": 0.9197959795979598,
+        "training_time": 2.068934917449951
+    }
+}

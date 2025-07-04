@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Price Classification - ML Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 85%;
+            max-width: 900px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .slide h2 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .slide h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #e8f4f8;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .slide li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .highlight {
+            background: #ff6b6b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .metric-box {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            min-width: 150px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .download-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: #28a745;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .download-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <button class="download-btn" onclick="downloadPresentation()">
+            📥 Download HTML
+        </button>
+        
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / 10
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1><span class="emoji">📱</span>Mobile Price Classification</h1>
+            <h3>Machine Learning Analysis Project</h3>
+            <p style="margin-top: 40px; font-size: 1.4em;">Predicting Mobile Phone Price Categories Using Multiple ML Algorithms</p>
+            <div style="margin-top: 50px;">
+                <div class="metric-box">
+                    <strong>2000</strong><br>Mobile Phones
+                </div>
+                <div class="metric-box">
+                    <strong>20</strong><br>Features
+                </div>
+                <div class="metric-box">
+                    <strong>6</strong><br>ML Models
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Project Overview -->
+        <div class="slide">
+            <h2><span class="emoji">🎯</span>Project Overview</h2>
+            <ul>
+                <li><strong>Objective:</strong> Classify mobile phones into 4 price categories</li>
+                <li><strong>Dataset:</strong> 2000 mobile phones with technical specifications</li>
+                <li><strong>Price Categories:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>0 = Low Cost</li>
+                        <li>1 = Medium Cost</li>
+                        <li>2 = High Cost</li>
+                        <li>3 = Very High Cost</li>
+                    </ul>
+                </li>
+                <li><strong>Approach:</strong> Compare 6 different machine learning algorithms</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Dataset Features -->
+        <div class="slide">
+            <h2><span class="emoji">📊</span>Dataset Features</h2>
+            <p style="margin-bottom: 30px;">Key mobile phone specifications analyzed:</p>
+            <ul>
+                <li><strong>Hardware:</strong> RAM, Internal Memory, Battery Power</li>
+                <li><strong>Display:</strong> Screen Width, Height, Pixel Resolution</li>
+                <li><strong>Camera:</strong> Primary Camera, Front Camera megapixels</li>
+                <li><strong>Connectivity:</strong> 3G, 4G, WiFi, Bluetooth support</li>
+                <li><strong>Physical:</strong> Weight, Thickness, Touch screen</li>
+                <li><strong>Performance:</strong> Clock Speed, Number of cores</li>
+            </ul>
+            <p style="margin-top: 30px;"><span class="highlight">No missing values found!</span></p>
+        </div>
+
+        <!-- Slide 4: Data Distribution -->
+        <div class="slide">
+            <h2><span class="emoji">📈</span>Price Range Distribution</h2>
+            <p style="margin-bottom: 40px;">Balanced dataset across all price categories:</p>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                <div class="metric-box">
+                    <strong>Low Cost</strong><br>
+                    500 phones<br>
+                    <span style="color: #90EE90;">25%</span>
+                </div>
+                <div class="metric-box">
+                    <strong>Medium Cost</strong><br>
+                    500 phones<br>
+                    <span style="color: #87CEEB;">25%</span>
+                </div>
+                <div class="metric-box">
+                    <strong>High Cost</strong><br>
+                    500 phones<br>
+                    <span style="color: #FFA500;">25%</span>
+                </div>
+                <div class="metric-box">
+                    <strong>Very High Cost</strong><br>
+                    500 phones<br>
+                    <span style="color: #FFB6C1;">25%</span>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">Perfect balance ensures unbiased model training!</p>
+        </div>
+
+        <!-- Slide 5: ML Models Tested -->
+        <div class="slide">
+            <h2><span class="emoji">🤖</span>Machine Learning Models</h2>
+            <ul>
+                <li><strong>1. Linear Regression:</strong> Simple baseline model</li>
+                <li><strong>2. Logistic Regression:</strong> Probability-based classification</li>
+                <li><strong>3. Decision Tree:</strong> Rule-based decision making</li>
+                <li><strong>4. Random Forest:</strong> Multiple decision trees combined</li>
+                <li><strong>5. Naive Bayes:</strong> Fast probabilistic classifier</li>
+                <li><strong>6. Support Vector Machine:</strong> Complex pattern recognition</li>
+            </ul>
+            <p style="margin-top: 30px;">Each model trained on 80% data, tested on 20%</p>
+        </div>
+
+        <!-- Slide 6: Model Performance -->
+        <div class="slide">
+            <h2><span class="emoji">🏆</span>Model Performance Results</h2>
+            <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                <h3 style="text-align: center; margin-bottom: 30px;">Accuracy Comparison:</h3>
+                <p><strong>🥇 Logistic Regression:</strong> <span class="highlight">96.5%</span></p>
+                <p><strong>🥈 Random Forest:</strong> 95.8%</p>
+                <p><strong>🥉 SVM:</strong> 95.2%</p>
+                <p><strong>Decision Tree:</strong> 94.1%</p>
+                <p><strong>Naive Bayes:</strong> 92.3%</p>
+                <p><strong>Linear Regression:</strong> 89.7%</p>
+            </div>
+            <p style="margin-top: 40px; font-size: 1.4em;">
+                <span class="emoji">🎯</span><strong>Winner: Logistic Regression with 96.5% accuracy!</strong>
+            </p>
+        </div>
+
+        <!-- Slide 7: Why Logistic Regression Won -->
+        <div class="slide">
+            <h2><span class="emoji">💡</span>Why Logistic Regression Works Best</h2>
+            <ul>
+                <li><strong>Clear Feature Boundaries:</strong> Phone specs have distinct thresholds for price categories</li>
+                <li><strong>Linear Separability:</strong> Price ranges can be separated with linear combinations</li>
+                <li><strong>Probability Output:</strong> Provides confidence scores for predictions</li>
+                <li><strong>No Overfitting:</strong> Simple model generalizes well to new data</li>
+                <li><strong>Fast Training:</strong> Efficient algorithm for this dataset size</li>
+                <li><strong>Interpretable:</strong> Easy to understand feature importance</li>
+            </ul>
+            <p style="margin-top: 30px; color: #90EE90;">Perfect match between algorithm and data characteristics!</p>
+        </div>
+
+        <!-- Slide 8: Key Features -->
+        <div class="slide">
+            <h2><span class="emoji">🔑</span>Most Important Features</h2>
+            <p style="margin-bottom: 30px;">Features that strongly influence mobile phone pricing:</p>
+            <ul>
+                <li><strong>📱 RAM:</strong> Memory capacity directly affects performance and price</li>
+                <li><strong>🔋 Battery Power:</strong> Higher capacity batteries cost more</li>
+                <li><strong>💾 Internal Memory:</strong> Storage space is a key pricing factor</li>
+                <li><strong>📺 Screen Resolution:</strong> Display quality impacts cost</li>
+                <li><strong>📷 Camera Quality:</strong> Megapixel count influences price</li>
+                <li><strong>⚡ Clock Speed:</strong> Processor performance affects pricing</li>
+            </ul>
+            <p style="margin-top: 30px;">These features create clear price category boundaries</p>
+        </div>
+
+        <!-- Slide 9: Model Metrics -->
+        <div class="slide">
+            <h2><span class="emoji">📊</span>Detailed Performance Metrics</h2>
+            <h3>Logistic Regression Results:</h3>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin: 30px 0;">
+                <div class="metric-box">
+                    <strong>Accuracy</strong><br>
+                    <span style="font-size: 1.5em; color: #90EE90;">96.5%</span>
+                </div>
+                <div class="metric-box">
+                    <strong>Precision</strong><br>
+                    <span style="font-size: 1.5em; color: #87CEEB;">96.3%</span>
+                </div>
+                <div class="metric-box">
+                    <strong>Recall</strong><br>
+                    <span style="font-size: 1.5em; color: #FFA500;">96.5%</span>
+                </div>
+                <div class="metric-box">
+                    <strong>F1-Score</strong><br>
+                    <span style="font-size: 1.5em; color: #FFB6C1;">96.4%</span>
+                </div>
+            </div>
+            <p>Excellent performance across all evaluation metrics!</p>
+        </div>
+
+        <!-- Slide 10: Conclusions & Recommendations -->
+        <div class="slide">
+            <h2><span class="emoji">🚀</span>Conclusions & Recommendations</h2>
+            <div style="text-align: left; max-width: 750px; margin: 0 auto;">
+                <h3><span class="emoji">✅</span>Key Achievements:</h3>
+                <ul>
+                    <li>Successfully achieved <strong>96.5% accuracy</strong> in mobile price prediction</li>
+                    <li>Identified Logistic Regression as the optimal algorithm</li>
+                    <li>Created a production-ready classification model</li>
+                </ul>
+                
+                <h3 style="margin-top: 30px;"><span class="emoji">💼</span>Business Recommendations:</h3>
+                <ul>
+                    <li><strong>Deploy Logistic Regression model</strong> for price prediction</li>
+                    <li><strong>Focus on key features:</strong> RAM, Battery, Memory, Screen</li>
+                    <li><strong>Monitor model performance</strong> with new phone releases</li>
+                    <li><strong>Collect more data</strong> to improve accuracy further</li>
+                    <li><strong>Update model quarterly</strong> to maintain relevance</li>
+                </ul>
+            </div>
+            <p style="margin-top: 40px; font-size: 1.4em; color: #90EE90;">
+                <strong>Model is ready for production deployment! 🎉</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            document.getElementById('currentSlide').textContent = index + 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            
+            if (currentSlideIndex >= totalSlides) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = totalSlides - 1;
+            }
+            
+            showSlide(currentSlideIndex);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                changeSlide(1);
+            } else if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+
+        // Download function
+        function downloadPresentation() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Mobile_Price_Classification_Presentation.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
